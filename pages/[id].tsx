@@ -3,8 +3,8 @@ import { GetStaticProps, GetStaticPaths } from "next";
 
 import { fetchTrello } from "config/fetchers";
 
-const Post: React.FC = (props) => {
-  return <></>;
+const Post: React.FC = ({ children, ...post }) => {
+  return <p>{(post as Post).desc}</p>;
 };
 
 export default Post;
@@ -28,18 +28,15 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   let props = {};
 
   if (params) {
-    const [post] = await (
-      await fetchTrello(
-        `https://api.trello.com/1/lists/${process.env.TRELLO_POST_LIST_ID}/cards`,
-        {
-          attachments: true,
-          fields: ["name", "desc"],
-          attachment_fields: "url",
-        }
-      )
+    const post = await (
+      await fetchTrello(`https://api.trello.com/1/cards/${params.id}`, {
+        attachments: true,
+        fields: ["name", "desc"],
+        attachment_fields: "url",
+      })
     ).json();
 
-    post.url = post.attachments[0]?.url;
+    post.url = post.attachments[0]?.url || "";
     delete post.attachments;
 
     props = post;
