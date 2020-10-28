@@ -10,7 +10,6 @@ export const Wrap = styled.div`
   flex-direction: row;
   width: 100%;
   height: 100%;
-  background-color: red;
 
   *:nth-child(even) {
     margin-left: 14px;
