@@ -1,7 +1,9 @@
 import React from "react";
 
-const Post: React.FC = () => {
-  return <></>;
+type Props = {} & Post;
+
+const Post: React.FC<Props> = ({ name, desc }) => {
+  return <> </>;
 };
 
 export default Post;

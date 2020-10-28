@@ -1,18 +1,25 @@
 import React from "react";
 import Head from "next/head";
-import { GetStaticProps, InferGetStaticPropsType } from "next";
+import { GetStaticProps } from "next";
 
 import { fetchTrello } from "config/fetchers";
 
-const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
+type Props = {
+  posts: Post[];
+};
+
+const Home: React.FC<Props> = ({ posts }) => {
   return (
     <div>
       <Head>
         <title>Trello Experiment</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
-      <div></div>
+      <ul>
+        {posts.map((post) => (
+          <li key={post.id}>{post.name}</li>
+        ))}
+      </ul>
     </div>
   );
 };
