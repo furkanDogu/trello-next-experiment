@@ -2,6 +2,7 @@ import React from "react";
 import Head from "next/head";
 import { GetStaticProps } from "next";
 
+import { Posts } from "components";
 import { fetchTrello } from "config/fetchers";
 
 type Props = {
@@ -15,11 +16,7 @@ const Home: React.FC<Props> = ({ posts }) => {
         <title>Trello Experiment</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <ul>
-        {posts.map((post) => (
-          <li key={post.id}>{post.name}</li>
-        ))}
-      </ul>
+      <Posts posts={posts as Post[]} />
     </div>
   );
 };
@@ -38,5 +35,13 @@ export const getStaticProps: GetStaticProps = async (context) => {
     )
   ).json();
 
-  return { props: { posts: res } };
+  return {
+    props: {
+      posts: res.map(({ id, name, ...rest }: any) => ({
+        id,
+        name,
+        url: rest.attachments[0]?.url || "",
+      })),
+    },
+  };
 };

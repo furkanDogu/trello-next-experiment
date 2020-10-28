@@ -2,7 +2,7 @@ export type GlobalPost = {
   id: string;
   name: string;
   desc?: string;
-  url: string;
+  url?: string;
 };
 
 declare global {
